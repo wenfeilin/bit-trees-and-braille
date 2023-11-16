@@ -89,22 +89,7 @@ public class BitTree {
   public void dump(PrintWriter pen) {
     BitTreeNode current = this.root;
     String path = "";
-
     traverse(current, path, pen);
-    // if levels...
-
-
-    // if (node == null) {
-    //   pen.println(indent + "<>");
-    // } else {
-    //   pen.println(indent + node.key + ": " + node.value);
-    //   if ((node.left != null) || (node.right != null)) {
-    //     dump(pen, node.left, indent + "  ");
-    //     dump(pen, node.right, indent + "  ");
-    //   } // if has children
-    // } // else
-
-
   } // dump(PrintWriter)
 
   public void load(InputStream source) {
@@ -132,14 +117,16 @@ public class BitTree {
 
   // Helper methods
   void traverse(BitTreeNode node, String path, PrintWriter pen) {
-    if (node != null) {
-
-      if (node instanceof BitTreeLeaf) {
-        pen.printf(",%c", ((BitTreeLeaf)node).getValue());
-      }
-      
-      traverse(node.left, path, pen);
-      traverse(node.right, path, pen);
+    if (node == null) {
+      return;
     }
-  }
+
+    if (node instanceof BitTreeLeaf) {
+      pen.print(path);
+      pen.printf(",%s\n", ((BitTreeLeaf) node).getValue());
+    } else {
+      traverse(node.left, path + "0", pen);
+      traverse(node.right, path + "1", pen);
+    }
+  } // traverse(BitTreeNode, String, PrintWriter)
 } // class BitTree
