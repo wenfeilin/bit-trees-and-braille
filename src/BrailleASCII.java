@@ -56,14 +56,17 @@ public class BrailleASCII {
 
           int i = 0;
           int j = 6;
-          finalOutput = "";
+          String finalUnicodeString = "";
 
           while(j <= sourceChars.length() * 6) {
-            finalOutput += BrailleASCIITables.toUnicode(asciiToBraille.substring(i, j));
+            String bitsToUnicodeCharNum = BrailleASCIITables.toUnicode(asciiToBraille.substring(i, j));
+            int unicodeCharHex = Integer.parseInt(bitsToUnicodeCharNum, 16);
+            finalUnicodeString += Character.toString(unicodeCharHex);
+
             i += 6;
             j += 6;
           }
-          pen.println(finalOutput);
+          pen.println(finalUnicodeString);
           break;
         default:
           errorPrinter.printf("Error: %s is an incorrect target character set.\nThe target character set should be either braille, ascii, or unicode.\n", targetCharSet);
