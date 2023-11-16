@@ -2,13 +2,21 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+/**
+ * 
+ */
 public class BitTree {
+  // FIELDS
   int levels; 
   BitTreeNode root;
 
+  // METHODS
+  /**
+   * 
+   * @param n
+   */
   public BitTree(int n) {
     this.levels = ++n;
-    //this.root = null;
     BitTreeNode rootNode = new BitTreeNode(null, null);
     this.root = rootNode;
   } // BitTree(int)
@@ -50,14 +58,20 @@ public class BitTree {
             pointer = pointer.right;
           }
         } else { // not composed solely of 0's and 1's
-          throw new Exception();
+          throw new Exception(String.format("Error: %s is not composed of only 0's and 1's.\n", bits));
         }
       }
     } else { // inappropriate length
-      throw new Exception();
+      throw new Exception(String.format("Error: %s is not %d bits long.\n", bits, levels - 1));
     }
   } // set(String, String)
 
+  /**
+   * 
+   * @param bits
+   * @return
+   * @throws Exception
+   */
   public String get(String bits) throws Exception {
     BitTreeNode pointer = this.root;
 
@@ -67,31 +81,44 @@ public class BitTree {
           if (pointer.left != null) {
             pointer = pointer.left;
           } else { // non-existent path
-            throw new Exception();
+            throw new Exception(String.format("Error: %s is a non-existent path in the tree.\n", bits));
           }
         } else if (bits.charAt(i) == '1') { // go right
           if (pointer.right != null) {
             pointer = pointer.right;
           } else { // non-existent path
-            throw new Exception();
+            throw new Exception(String.format("Error: %s is a non-existent path in the tree.\n", bits));
           }
         } else { // not composed solely of 0's and 1's
-          throw new Exception();
+          throw new Exception(String.format("Error: %s is not composed of only 0's and 1's.\n", bits));
         }
       }
     } else { // inappropriate length
-      throw new Exception();
+      throw new Exception(String.format("Error: %s is not %d bits long.\n", bits, levels - 1));
     }
 
-    return ((BitTreeLeaf) pointer).getValue(); // do i need to throw an exception in case last node is not a leaf? I assume that's not checked in set but idk... think abt it more
+    if (pointer instanceof BitTreeLeaf) { 
+      return ((BitTreeLeaf) pointer).getValue();
+    } else { // not valid path in tree (no mapping)
+      throw new Exception(String.format("Error: %s is a non-existent path in the tree.\n", bits)); 
+    }
+     
   } // get(String)
 
+  /**
+   * 
+   * @param pen
+   */
   public void dump(PrintWriter pen) {
     BitTreeNode current = this.root;
     String path = "";
-    traverse(current, path, pen);
+    traverseAll(current, path, pen);
   } // dump(PrintWriter)
 
+  /**
+   * 
+   * @param source
+   */
   public void load(InputStream source) {
     PrintWriter errorPrinter = new PrintWriter(System.out, true);
     Scanner fileReader = new Scanner(source);
@@ -106,7 +133,7 @@ public class BitTree {
       try {
         this.set(partsOfLine[0], partsOfLine[1]);
       } catch (Exception e) {
-        errorPrinter.printf("The bits in line %d are an inappropriate length or doesn't consist only of 0's and 1's.\n", lineNumber);
+        errorPrinter.printf("(Line %d) %s", lineNumber, e.getMessage());
         System.exit(1);
       }
       lineNumber++;
@@ -116,7 +143,14 @@ public class BitTree {
   } // load(InputStream)
 
   // Helper methods
-  void traverse(BitTreeNode node, String path, PrintWriter pen) {
+
+  /**
+   * 
+   * @param node
+   * @param path
+   * @param pen
+   */
+  void traverseAll(BitTreeNode node, String path, PrintWriter pen) {
     if (node == null) {
       return;
     }
@@ -125,8 +159,8 @@ public class BitTree {
       pen.print(path);
       pen.printf(",%s\n", ((BitTreeLeaf) node).getValue());
     } else {
-      traverse(node.left, path + "0", pen);
-      traverse(node.right, path + "1", pen);
+      traverseAll(node.left, path + "0", pen);
+      traverseAll(node.right, path + "1", pen);
     }
   } // traverse(BitTreeNode, String, PrintWriter)
 } // class BitTree
