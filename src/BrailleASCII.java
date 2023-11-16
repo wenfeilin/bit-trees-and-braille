@@ -40,24 +40,26 @@ public class BrailleASCII {
               i += 6;
               j += 6;
             }
-            pen.println(finalOutput);
+            pen.println(finalOutput); // should this be lowercase? so confused with the lowercase and uppercase stuff
           }
           break;
         case "unicode": // ASCII to Unicode
+          String asciiToBraille = "";
           for (char ch : sourceCharsArr) {
             if (!(Character.isLowerCase(ch) && Character.isLetter(ch))) {
               errorPrinter.printf("Error: %s must be composed of only lowercase alphabetic letters to convert to Braille.\n", sourceChars);
               System.exit(4);
             }
 
-            finalOutput += BrailleASCIITables.toBraille(ch);
+            asciiToBraille += BrailleASCIITables.toBraille(ch);
           }
 
           int i = 0;
           int j = 6;
+          finalOutput = "";
 
-          while(j <= sourceChars.length()) {
-            finalOutput += BrailleASCIITables.toUnicode(finalOutput.substring(i, j));
+          while(j <= sourceChars.length() * 6) {
+            finalOutput += BrailleASCIITables.toUnicode(asciiToBraille.substring(i, j));
             i += 6;
             j += 6;
           }

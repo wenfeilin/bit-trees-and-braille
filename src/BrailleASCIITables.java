@@ -11,7 +11,7 @@ public class BrailleASCIITables {
   public static String toBraille(char letter) { // ASCII letter to braille
     PrintWriter errorPrinter = new PrintWriter(System.out, true);
     BitTree brailleTree = new BitTree(8);
-    String fileName = "ASCIIToBraille.txt";
+    String fileName = "src/ASCIIToBraille.txt";
     File file = new File(fileName);
     InputStream inputStream;
     String asciiToBrailleOutput = "";
@@ -20,9 +20,15 @@ public class BrailleASCIITables {
     // convert ASCII letter to 8-bit binary
     int charNum = (int) letter;
 
-    for (int i = 8; i >= 1; i--) {
+    if (Character.isLowerCase(letter)) {
+      charNum -= 32;
+    }
+    
+
+    for (int i = 7; i >= 0; i--) {
       if ((int)(Math.pow(2, i)) <= charNum) {
         letterToASCIIBits += "1";
+        charNum -= (int)(Math.pow(2, i));
       } else {
         letterToASCIIBits += "0";
       }
@@ -117,7 +123,7 @@ public class BrailleASCIITables {
   public static String toASCII(String bits) { // braille to ASCII
     PrintWriter errorPrinter = new PrintWriter(System.out, true);
     BitTree asciiTree = new BitTree(6);
-    String fileName = "BrailleToASCII.txt";
+    String fileName = "src/BrailleToASCII.txt";
     File file = new File(fileName);
     InputStream inputStream;
     String bitsToASCIIOutput = "";
@@ -201,7 +207,7 @@ public class BrailleASCIITables {
   public static String toUnicode(String bits) { // braille to Unicode
     PrintWriter errorPrinter = new PrintWriter(System.out, true);
     BitTree unicodeTree = new BitTree(6);
-    String fileName = "BrailleToUnicode.txt";
+    String fileName = "src/BrailleToUnicode.txt";
     File file = new File(fileName);
     InputStream inputStream;
     String bitsToUnicodeOutput = "";

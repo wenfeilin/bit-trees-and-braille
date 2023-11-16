@@ -8,7 +8,9 @@ public class BitTree {
 
   public BitTree(int n) {
     this.levels = ++n;
-    this.root = null;
+    //this.root = null;
+    BitTreeNode rootNode = new BitTreeNode(null, null);
+    this.root = rootNode;
   } // BitTree(int)
 
   /**
@@ -21,26 +23,30 @@ public class BitTree {
   public void set(String bits, String value) throws Exception {
     if (bits.length() == levels - 1) {
       BitTreeNode pointer = this.root;
-      BitTreeNode rootNode = new BitTreeNode(null, null);
-      this.root = rootNode;
 
-      for (int i = 0; i < bits.length() - 1; i++) {
+      for (int i = 0; i < bits.length(); i++) {
         if (bits.charAt(i) == '0') { // go left
-          if (i == bits.length() - 2) { // the last bit
+          if (i == bits.length() - 1) { // the last bit
             BitTreeLeaf newLeftLeaf = new BitTreeLeaf(value);
             pointer.left = newLeftLeaf;
           } else {
-            BitTreeNode newLeftNode = new BitTreeNode(null, null);
-            pointer.left = newLeftNode;
+            if (pointer.left == null) {
+              BitTreeNode newLeftNode = new BitTreeNode(null, null);
+              pointer.left = newLeftNode;
+            }
+            
             pointer = pointer.left;
           }
         } else if (bits.charAt(i) == '1') { // go right
-          if (i == bits.length() - 2) { // the last bit
+          if (i == bits.length() - 1) { // the last bit
             BitTreeLeaf newRightLeaf = new BitTreeLeaf(value);
             pointer.right = newRightLeaf;
           } else {
-            BitTreeNode newRightNode = new BitTreeNode(null, null);
-            pointer.right = newRightNode;
+            if (pointer.right == null) {
+              BitTreeNode newRightNode = new BitTreeNode(null, null);
+              pointer.right = newRightNode;
+            }
+            
             pointer = pointer.right;
           }
         } else { // not composed solely of 0's and 1's
@@ -87,6 +93,18 @@ public class BitTree {
     traverse(current, path, pen);
     // if levels...
 
+
+    // if (node == null) {
+    //   pen.println(indent + "<>");
+    // } else {
+    //   pen.println(indent + node.key + ": " + node.value);
+    //   if ((node.left != null) || (node.right != null)) {
+    //     dump(pen, node.left, indent + "  ");
+    //     dump(pen, node.right, indent + "  ");
+    //   } // if has children
+    // } // else
+
+
   } // dump(PrintWriter)
 
   public void load(InputStream source) {
@@ -103,7 +121,7 @@ public class BitTree {
       try {
         this.set(partsOfLine[0], partsOfLine[1]);
       } catch (Exception e) {
-        errorPrinter.printf("The bits in line %d an inappropriate length or doesn't consist only of 0's and 1's.\n", lineNumber);
+        errorPrinter.printf("The bits in line %d are an inappropriate length or doesn't consist only of 0's and 1's.\n", lineNumber);
         System.exit(1);
       }
       lineNumber++;
