@@ -1,6 +1,8 @@
 /**
  * A class that represents a node in a binary bit tree with only information
  * about its left and right children.
+ * 
+ * @author Wenfei Lin
  */
 public class BitTreeNode {
   // FIELDS
