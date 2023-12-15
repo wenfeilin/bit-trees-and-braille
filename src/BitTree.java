@@ -8,11 +8,18 @@ import java.util.Scanner;
  * @author Wenfei Lin
  */
 public class BitTree {
-  // FIELDS
+
+  // +--------+------------------------------------------------------
+  // | Fields |
+  // +--------+
+
   int levels;
   BitTreeNode root;
 
-  // METHODS
+  // +--------------+------------------------------------------------
+  // | Constructors |
+  // +--------------+
+
   /**
    * Creates a binary bit tree with n + 1 levels and a root node. 
    * @param n the length of a path in a tree (levels of tree - 1)
@@ -22,6 +29,10 @@ public class BitTree {
     BitTreeNode rootNode = new BitTreeNode(null, null);
     this.root = rootNode;
   } // BitTree(int)
+
+  // +---------+-----------------------------------------------------
+  // | Methods |
+  // +---------+
 
   /**
    * Adds or replaces the value at the end of the path through the tree specified
@@ -116,18 +127,18 @@ public class BitTree {
         } else { // Not composed solely of 0's and 1's
           throw new Exception(String.format("Error: %s is not composed of only 0's and 1's.\n", 
               bits));
-        }
-      }
+        } // if/else
+      } // for
     } else { // Inappropriate length
       throw new Exception(String.format("Error: %s is not %d bits long.\n", bits, levels - 1));
-    }
+    } // if/else
 
     // Check that a leaf is at the end of the path and return the value at that leaf
     if (pointer instanceof BitTreeLeaf) { 
       return ((BitTreeLeaf) pointer).getValue();
     } else { // Not valid path in tree because there is no leaf at the end of the path
       throw new Exception(String.format("Error: %s is a non-existent path in the tree.\n", bits));
-    }
+    } // if/else
   } // get(String)
 
   /**
@@ -164,9 +175,9 @@ public class BitTree {
       } catch (Exception e) { // Some error in the input from the specified file line
         errorPrinter.printf("(Line %d) %s", lineNumber, e.getMessage());
         System.exit(1);
-      }
+      } // try/catch
       lineNumber++;
-    }
+    } // while
 
     // Close file reader
     fileReader.close();
@@ -185,7 +196,7 @@ public class BitTree {
   void traverseAll(BitTreeNode node, String path, PrintWriter pen) {
     if (node == null) { // Stop when current node is null
       return;
-    }
+    } // if
 
     if (node instanceof BitTreeLeaf) { // Reached a leaf, so print path, value
       pen.print(path);
@@ -193,6 +204,6 @@ public class BitTree {
     } else {
       traverseAll(node.left, path + "0", pen); // Traversing left, add "0" to the path
       traverseAll(node.right, path + "1", pen); // Traversing right, add "1" to the path
-    }
+    } // if/else
   } // traverse(BitTreeNode, String, PrintWriter)
 } // class BitTree

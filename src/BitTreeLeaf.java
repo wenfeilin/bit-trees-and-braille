@@ -4,10 +4,16 @@
  * @author Wenfei Lin
  */
 public class BitTreeLeaf extends BitTreeNode {
-  // FIELDS
+  // +--------+------------------------------------------------------
+  // | Fields |
+  // +--------+
+
   String value;
 
-  // METHODS
+  // +--------------+------------------------------------------------
+  // | Constructors |
+  // +--------------+
+
   /**
    * Creates a leaf (an "endpoint") of the binary bit tree that only contains
    * information about the value it is storing.
@@ -18,6 +24,10 @@ public class BitTreeLeaf extends BitTreeNode {
     super(null, null);
     this.value = value;
   } // BitTreeLeaf(String)
+
+  // +---------+-----------------------------------------------------
+  // | Methods |
+  // +---------+
 
   /**
    * Returns the value of this leaf.
@@ -35,5 +45,5 @@ public class BitTreeLeaf extends BitTreeNode {
    */
   public void setValue(String newValue) {
     this.value = newValue;
-  }
+  } // setValue(String)
 } // class BitTreeLeaf

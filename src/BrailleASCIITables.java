@@ -36,8 +36,8 @@ public class BrailleASCIITables {
         charNum -= (int) (Math.pow(2, i));
       } else {
         letterToASCIIBits += "0";
-      }
-    }
+      } // if/else
+    } // for
 
     // Get and return the associated braille bits for the ASCII character
     return retrieveMappedValue(fileName, letterToASCIIBits, asciiToBrailleTreeBits);
@@ -74,7 +74,9 @@ public class BrailleASCIITables {
     return retrieveMappedValue(fileName, bits, brailleToUnicodeTreeBits);
   } // toUnicode(String)
 
-  // HELPER METHODS
+  // +----------------+------------------------------------------------
+  // | Helper Methods |
+  // +----------------+
 
   /**
    * Gets the respective mapped value after traversing the path specified by
@@ -109,7 +111,7 @@ public class BrailleASCIITables {
     } catch (Exception e) { // Some error specific to the path of bits given
       errorPrinter.printf("%s", e.getMessage());
       System.exit(6);
-    }
+    } // try/catch
 
     return convertedValue;
   } // retrieveMappedValue(String, String, int)

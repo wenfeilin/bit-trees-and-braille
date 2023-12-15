@@ -5,11 +5,17 @@
  * @author Wenfei Lin
  */
 public class BitTreeNode {
-  // FIELDS
+  // +--------+------------------------------------------------------
+  // | Fields |
+  // +--------+
+
   BitTreeNode left;
   BitTreeNode right;
 
-  // METHODS
+  // +--------------+------------------------------------------------
+  // | Constructors |
+  // +--------------+
+  
   /**
    * Creates a node of the binary bit tree that has left and right children (could
    * be null).
